@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const todosRouter = require("./routes/todosroutes");
+const userRouter = require("./routes/userroutes");
 
 const app = express();
 dotenv.config();
@@ -10,6 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/todos", todosRouter); // route of todos in todosroutes file
+app.use("/api/user", userRouter); // route of user in userroutes file
 
 mongoose
   .connect(process.env.MONGODB_URI)

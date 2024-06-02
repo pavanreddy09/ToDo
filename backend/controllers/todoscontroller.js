@@ -2,7 +2,8 @@ const Todos = require("../models/todosmodel");
 
 // function to get all the todos
 const getTodos = async (req, res) => {
-  const todos = await Todos.find({});
+  const todos = await Todos.find({ email: req.user.email });
+
   if (todos) {
     res.json(todos);
   } else {
@@ -12,9 +13,9 @@ const getTodos = async (req, res) => {
 
 // function to create a todo
 const postTodo = async (req, res) => {
-  const { title, description, status } = req.body;
+  const { title, description, status, email } = req.body;
 
-  const todos = Todos.create({ title, description, status });
+  const todos = Todos.create({ title, description, status, email });
 
   if (todos) {
     res.status(200).json(todos);
@@ -47,6 +48,7 @@ const updateTodo = async (req, res) => {
     title,
     description,
     status,
+    email: req.user.email,
   });
 
   if (updatedTodo) {
