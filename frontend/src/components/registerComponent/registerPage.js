@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { USER_REGISTER_API_URL } from "../../constants";
 import axios from "axios";
-import { setUserAuthInfo } from "../userAuth";
+import { getUserAuthInfo, setUserAuthInfo } from "../userAuth";
 import { Alert } from "@mui/material";
 import { genConfig } from "react-nice-avatar";
+import RotateRightIcon from "@mui/icons-material/RotateRight";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
 
 function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [passwordValidate, setPasswordValidate] = useState(false);
+  const [passwordHasFocus, setPasswordHasFocus] = useState(false);
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
@@ -37,12 +41,26 @@ function RegisterPage() {
     }
   };
 
+  const handlePassword = (e) => {
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/;
+    const value = e.target.value;
+    setPasswordValidate(regex.test(value));
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setErrorMessage("");
     }, 9000);
     return () => clearInterval(interval);
   }, [errorMessage]);
+
+  useEffect(() => {
+    const userInfo = getUserAuthInfo();
+    if (userInfo) {
+      window.location.href = "/";
+    }
+  }, []);
 
   return (
     <div className="logincontainer">
@@ -66,8 +84,33 @@ function RegisterPage() {
             <label htmlFor="password">
               Password<i>*</i>
             </label>
-            <input type="password" name="password" required />
+            <input
+              type="password"
+              name="password"
+              required
+              onChange={handlePassword}
+              onFocus={() => setPasswordHasFocus(true)}
+              onBlur={() => setPasswordHasFocus(false)}
+            />
           </div>
+          {passwordHasFocus && (
+            <div className="password-check">
+              <p className="password-check-text">
+                Minimum 8 characters, at least one uppercase letter, one
+                lowercase letter, one number and one special character
+              </p>
+              {passwordValidate ? (
+                <TaskAltIcon
+                  sx={{ color: "green", fontSize: "16px", marginLeft: "5px" }}
+                />
+              ) : (
+                <RotateRightIcon
+                  sx={{ color: "red", fontSize: "14px", marginLeft: "5px" }}
+                  className={!passwordValidate ? "rotate" : ""}
+                />
+              )}
+            </div>
+          )}
           <div className="field">
             <button disabled={isLoading}>Register</button>
           </div>

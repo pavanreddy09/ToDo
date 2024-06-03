@@ -15,9 +15,10 @@ function UpdateTodoForm() {
   const navigate = useNavigate();
 
   const fetchTodo = async () => {
+    setIsLoading(true);
     const userInfo = getUserAuthInfo();
+
     if (userInfo) {
-      setIsLoading(true);
       try {
         const { data } = await axios.get(
           `${API_URL}/${id}`,
@@ -31,6 +32,7 @@ function UpdateTodoForm() {
         setIsLoading(false);
       }
     } else {
+      setIsLoading(false);
       navigate("/login");
     }
   };

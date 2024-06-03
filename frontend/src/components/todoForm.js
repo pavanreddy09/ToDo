@@ -25,14 +25,21 @@ function TodoForm({
         </div>
         <div className="field">
           <label htmlFor="descrition">Description</label>
-          <input
+          {/* <input
             type="text"
             name="description"
             value={formValues.description}
             onChange={(e) =>
               setFormValues({ ...formValues, description: e.target.value })
             }
-          />
+          /> */}
+          <textarea
+            name="description"
+            value={formValues.description}
+            onChange={(e) =>
+              setFormValues({ ...formValues, description: e.target.value })
+            }
+          ></textarea>
         </div>
         <div>
           <label htmlFor="status">

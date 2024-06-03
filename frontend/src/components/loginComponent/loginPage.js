@@ -2,7 +2,7 @@ import { Alert, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { USER_LOGIN_API_URL } from "../../constants";
-import { setUserAuthInfo } from "../userAuth";
+import { getUserAuthInfo, setUserAuthInfo } from "../userAuth";
 import axios from "axios";
 
 function LoginPage() {
@@ -21,13 +21,11 @@ function LoginPage() {
         email: email,
         password: password,
       });
-      console.log(data);
       setUserAuthInfo(data);
       setIsLoading(false);
       window.location.href = "/";
     } catch (err) {
       setErrorMessage(err.response?.data?.message);
-      console.log(err);
     } finally {
       setIsLoading(false);
     }
@@ -39,6 +37,13 @@ function LoginPage() {
     }, 5000);
     return () => clearInterval(interval);
   }, [errorMessage]);
+
+  useEffect(() => {
+    const userInfo = getUserAuthInfo();
+    if (userInfo) {
+      window.location.href = "/";
+    }
+  }, []);
 
   return (
     <div className="logincontainer">
@@ -52,13 +57,13 @@ function LoginPage() {
             <label htmlFor="email">
               Email<i>*</i>
             </label>
-            <input type="email" name="email" required />
+            <input type="email" name="email" id="email" required />
           </div>
           <div className="field">
             <label htmlFor="password">
               Password<i>*</i>
             </label>
-            <input type="password" name="password" required />
+            <input type="password" name="password" id="password" required />
           </div>
           <div className="field">
             <button disabled={isLoading}>Log In</button>

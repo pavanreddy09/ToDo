@@ -60,16 +60,18 @@ nav h1 {
   display: block;
   font-size: 20px;
   line-height: 28px;
-  color: #1a1f36;
+  color: white;
   margin-bottom: 15px;
   text-transform: uppercase;
+  font-weight: bold;
 }
 /* .field label {
   margin-bottom: 20px;
 } */
 
 input,
-select {
+select,
+textarea {
   font-size: 16px;
   line-height: 28px;
   padding: 8px 16px;
@@ -85,7 +87,8 @@ select {
     rgba(0, 0, 0, 0) 0px 0px 0px 0px;
 }
 
-.field input {
+.field input,
+textarea {
   margin-bottom: 20px;
   margin-top: 10px;
 }
@@ -267,12 +270,31 @@ select {
 /* .avatar-smallscreen {
   display: none;
 } */
+.password-check {
+  display: flex;
+  margin-top: -15px;
+}
+.password-check-text {
+  font-size: 10px;
+}
 
 button:disabled {
   background-color: grey;
   cursor: not-allowed;
 }
 
+.rotate {
+  animation: rotate 2s infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 @media (max-width: 640px) {
   .search-field-div,
   .filter-status {
