@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import { getUserAuthInfo, removeUserAuthInfo } from "./userAuth";
 import Avatar from "react-nice-avatar";
-import { Tooltip } from "@mui/material";
 
 function Header() {
   const [userData, setUserData] = useState("");
+
   useEffect(() => {
     const userInfo = getUserAuthInfo();
     if (userInfo) {

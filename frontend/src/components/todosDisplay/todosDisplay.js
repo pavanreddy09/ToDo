@@ -4,13 +4,7 @@ import TodoItems from "./todoItems";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import { API_URL } from "../../constants";
-import {
-  CircularProgress,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { CircularProgress, FormControl, MenuItem, Select } from "@mui/material";
 import NoData from "../noData";
 import { useNavigate } from "react-router-dom";
 import { configAuth, getUserAuthInfo } from "../userAuth";
@@ -22,6 +16,7 @@ function TodosDisplay() {
   const [filterValue, setFilterValue] = useState("All");
   const navigate = useNavigate();
 
+  // fetch todos function
   const fetchTodos = async () => {
     const userInfo = getUserAuthInfo();
     if (userInfo) {
@@ -33,10 +28,10 @@ function TodosDisplay() {
           const createdDate = date.toDateString().split(" ");
           const createdTime = date.toLocaleTimeString().split(":");
           const ampm = date.toLocaleTimeString().split(" ")[1];
-          d.date = `${createdDate[2]} ${createdDate[1]} ${createdDate[3]}`;
+          d.date = `${createdDate[2]} ${createdDate[1]} ${createdDate[3]}`; // setting created date
           d.time = `${
             createdTime[0] < 10 ? "0" + createdTime[0] : createdTime[0]
-          }:${createdTime[1]} ${ampm.toUpperCase()}`;
+          }:${createdTime[1]} ${ampm.toUpperCase()}`; // setting created time
         });
         setTodos(data);
         setSearchedTodos(data);
@@ -50,6 +45,7 @@ function TodosDisplay() {
     }
   };
 
+  // search function
   const handleSearchTodo = (e) => {
     const searchText = e.target.value;
 
@@ -64,6 +60,7 @@ function TodosDisplay() {
     fetchTodos();
   }, []);
 
+  // useEffect for filter by status
   useEffect(() => {
     if (filterValue === "All") {
       setSearchedTodos(todos);

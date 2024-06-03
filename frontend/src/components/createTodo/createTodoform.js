@@ -18,6 +18,7 @@ function CreateTodoForm() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  // create todo function
   const handleCreateTodo = async (e) => {
     e.preventDefault();
     if (!formValues.title) {

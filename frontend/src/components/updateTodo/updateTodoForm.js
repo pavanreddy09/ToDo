@@ -14,6 +14,7 @@ function UpdateTodoForm() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // fetch todo function
   const fetchTodo = async () => {
     setIsLoading(true);
     const userInfo = getUserAuthInfo();
@@ -37,6 +38,7 @@ function UpdateTodoForm() {
     }
   };
 
+  // update a todo function
   const handleTodoUpdate = async (e) => {
     e.preventDefault();
     if (!formValues.title) {

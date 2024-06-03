@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Chip, IconButton, Tooltip } from "@mui/material";
@@ -11,12 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { configAuth, getUserAuthInfo } from "../userAuth";
 
 function TodoItems({ todo, fetchTodos }) {
-  const [isOverflow, setIsOverflow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const heightRef = useRef(null);
   const navigate = useNavigate();
 
+  // delete to function
   const handleDeleteTodo = async (todoId) => {
     const confirm = window.confirm("Are you sure want to delete this Todo?");
     const userInfo = getUserAuthInfo();
@@ -36,6 +35,7 @@ function TodoItems({ todo, fetchTodos }) {
     }
   };
 
+  // mark as complete todo function
   const markAsCompleted = async (todoId) => {
     const confirm = window.confirm("Are you sure want to complete this Todo?");
     const userInfo = getUserAuthInfo();
@@ -61,13 +61,6 @@ function TodoItems({ todo, fetchTodos }) {
         });
     }
   };
-
-  // useEffect(() => {
-  //   const el = heightRef.current;
-  //   if (el.offsetHeight < el.scrollHeight) {
-  //     setIsOverflow(true);
-  //   }
-  // }, []);
 
   return (
     <div

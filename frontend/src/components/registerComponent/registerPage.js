@@ -14,6 +14,7 @@ function RegisterPage() {
   const [passwordValidate, setPasswordValidate] = useState(false);
   const [passwordHasFocus, setPasswordHasFocus] = useState(false);
 
+  // user Register function
   const handleRegisterUser = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -41,6 +42,7 @@ function RegisterPage() {
     }
   };
 
+  // validate password function
   const handlePassword = (e) => {
     const regex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/;
@@ -48,6 +50,7 @@ function RegisterPage() {
     setPasswordValidate(regex.test(value));
   };
 
+  // useeffect to hide error after 5s
   useEffect(() => {
     const interval = setInterval(() => {
       setErrorMessage("");
@@ -55,6 +58,7 @@ function RegisterPage() {
     return () => clearInterval(interval);
   }, [errorMessage]);
 
+  // useEffect to test if user is already loged in or not if loged in navigate to home
   useEffect(() => {
     const userInfo = getUserAuthInfo();
     if (userInfo) {

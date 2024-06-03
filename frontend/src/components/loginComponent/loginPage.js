@@ -9,6 +9,7 @@ function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // login user function
   const handleLoginUser = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -31,6 +32,7 @@ function LoginPage() {
     }
   };
 
+  // useeffect to hide error after 5s
   useEffect(() => {
     const interval = setInterval(() => {
       setErrorMessage("");
@@ -38,6 +40,7 @@ function LoginPage() {
     return () => clearInterval(interval);
   }, [errorMessage]);
 
+  // useEffect to test if user is already loged in or not if loged in navigate to home
   useEffect(() => {
     const userInfo = getUserAuthInfo();
     if (userInfo) {

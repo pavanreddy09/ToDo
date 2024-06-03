@@ -1,7 +1,3 @@
-/* .App {
-  height: 100dvh;
-} */
-
 nav {
   height: 70px;
   background-color: #575757;
@@ -65,9 +61,6 @@ nav h1 {
   text-transform: uppercase;
   font-weight: bold;
 }
-/* .field label {
-  margin-bottom: 20px;
-} */
 
 input,
 select,
@@ -112,19 +105,14 @@ textarea {
 }
 
 .todos {
-  /* width: 50%; */
-  /* height: 100vh; */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  /* width: 100vw; */
 }
 
 .todo-container {
-  /* max-width: 500px; */
   padding: 15px 20px;
-  /* background-color: red; */
 }
 
 .todo-top {
@@ -149,14 +137,7 @@ textarea {
 }
 
 .todo {
-  /* .notes { */
-  /* max-height: 130px; */
-  /* overflow: hidden; */
-  /* padding: 15px; */
-  /* max-lines: 4; */
-  /* text-overflow: clip; */
   position: relative;
-  /* } */
 }
 
 .todo-description {
@@ -164,31 +145,9 @@ textarea {
   overflow-y: auto;
 }
 
-/* .todo:not(:has(~ .show)):before {
-  content: "";
-  position: absolute;
-  height: 10px;
-  width: 100%;
-  pointer-events: none;
-  bottom: 0;
-  background: linear-gradient(to bottom, transparent, white);
-} */
-
 .todo p {
   font-size: 14px;
 }
-
-/* .view-more {
-  position: absolute;
-  bottom: -5.5px;
-  right: 5px;
-  background-color: red;
-  /* padding: 2px; */
-
-/* .view-more {
-  display: flex;
-  justify-content: flex-end;
-} */
 
 .todo-grid {
   width: 100%;
@@ -196,7 +155,6 @@ textarea {
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   padding: 10px 15px;
   gap: 15px;
-  /* overflow: hidden; */
 }
 
 .search-field-div {
@@ -267,9 +225,7 @@ select {
   width: 470px;
   margin-top: -16px;
 }
-/* .avatar-smallscreen {
-  display: none;
-} */
+
 .password-check {
   display: flex;
   margin-top: -15px;
@@ -307,9 +263,7 @@ button:disabled {
   .avatar {
     margin-right: 5px;
   }
-  /* .avatar p {
-    display: none;
-  } */
+
   .formbg {
     max-width: 400px;
   }
