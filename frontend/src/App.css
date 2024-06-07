@@ -121,6 +121,12 @@ textarea {
   align-items: center;
 }
 
+.top-with-checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .todo-time-date {
   display: flex;
 }
@@ -222,8 +228,23 @@ select {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 470px;
+  width: 500px;
   margin-top: -16px;
+}
+.delete-multiple {
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+  /* width: 400px; */
+}
+
+.delete-multiple p {
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: -10px;
+}
+.delete-multiple p:hover {
+  color: rgb(87, 87, 249);
 }
 
 .password-check {
@@ -255,6 +276,12 @@ button:disabled {
   .search-field-div,
   .filter-status {
     width: auto;
+  }
+  /* .filter-status {
+    flex-direction: column;
+  } */
+  .delete-multiple {
+    margin-left: 10px;
   }
   nav h1 {
     margin-left: 10px;

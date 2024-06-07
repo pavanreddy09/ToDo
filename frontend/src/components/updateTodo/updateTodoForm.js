@@ -6,6 +6,7 @@ import axios from "axios";
 import { configAuth, getUserAuthInfo } from "../userAuth";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Tooltip } from "@mui/material";
+import { ToastError, ToastSuccess } from "../toastNotification";
 
 function UpdateTodoForm() {
   const [formValues, setFormValues] = useState({});
@@ -56,13 +57,14 @@ function UpdateTodoForm() {
         },
         configAuth(userInfo)
       )
-      .then(function (response) {
-        alert("Todo is Updated Succesfully!");
+      .then((response) => {
+        ToastSuccess(response.data.message);
         setIsLoading(false);
         navigate("/");
       })
       .catch(function (error) {
         console.log(error);
+        ToastError(error.response.data.message);
         setIsLoading(false);
       });
   };
@@ -73,15 +75,16 @@ function UpdateTodoForm() {
 
   return (
     <div>
-      <div className="todoform">
+      <div className="todoform" role="update-main">
         <div className="span">
           <Tooltip title="Back">
             <ArrowBackIcon
               sx={{ cursor: "pointer" }}
               onClick={() => navigate("/")}
+              aria-label="back"
             />
           </Tooltip>
-          <span>Update a Todo</span>
+          <span aria-label="update-title">Update a Todo</span>
         </div>
         <TodoForm
           formValues={formValues}

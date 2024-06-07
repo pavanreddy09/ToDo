@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { configAuth, getUserAuthInfo } from "../userAuth";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Tooltip } from "@mui/material";
+import { ToastError, ToastSuccess } from "../toastNotification";
 
 function CreateTodoForm() {
   const navigate = useNavigate();
@@ -34,17 +35,18 @@ function CreateTodoForm() {
             title: formValues.title,
             description: formValues.description,
             status: formValues.status,
-            email: JSON.parse(userInfo).email,
+            email: JSON.parse(userInfo).user.email,
           },
           configAuth(userInfo)
         )
         .then(function (response) {
-          alert("Todo is Created SuccesFully!");
+          ToastSuccess("Todo is Created SuccesFully!");
           setIsLoading(false);
           navigate("/");
         })
         .catch(function (error) {
           console.log(error);
+          ToastError(error.response.data.message);
           setIsLoading(false);
         });
     } else {
@@ -61,7 +63,7 @@ function CreateTodoForm() {
             onClick={() => navigate("/")}
           />
         </Tooltip>
-        <span>Create a Todo</span>
+        <span aria-label="title-create">Create a Todo</span>
       </div>
       <TodoForm
         formValues={formValues}

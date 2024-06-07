@@ -11,7 +11,12 @@ function NoData() {
         height: "60vh",
       }}
     >
-      <img src="/assets/no-data.png" height={200} width={200} />
+      <img
+        src="/assets/no-data.png"
+        alt="no-data-image"
+        height={200}
+        width={200}
+      />
       <p>No Data Found</p>
     </div>
   );

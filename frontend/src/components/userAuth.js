@@ -17,7 +17,8 @@ export const removeUserAuthInfo = () => {
 export const configAuth = (userInfo) => {
   const config = {
     headers: {
-      authorization: `Bearer ${JSON.parse(userInfo).acesstoken}`,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(userInfo).acesstoken}`,
     },
   };
   return config;

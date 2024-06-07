@@ -8,8 +8,8 @@ function TodoForm({
   buttonText,
 }) {
   return (
-    <div className="formbg">
-      <form onSubmit={handleOnSubmit}>
+    <div className="formbg" role="main">
+      <form role={`${buttonText}-form`} onSubmit={handleOnSubmit}>
         <div className="field">
           <label htmlFor="title">
             Title<i>*</i>
@@ -17,6 +17,8 @@ function TodoForm({
           <input
             type="text"
             name="title"
+            id="title"
+            aria-label="title"
             value={formValues.title}
             onChange={(e) =>
               setFormValues({ ...formValues, title: e.target.value })
@@ -36,6 +38,8 @@ function TodoForm({
           <textarea
             name="description"
             value={formValues.description}
+            id="description"
+            aria-label="description"
             onChange={(e) =>
               setFormValues({ ...formValues, description: e.target.value })
             }
@@ -48,6 +52,8 @@ function TodoForm({
           <select
             name="status"
             value={formValues.status}
+            id="status"
+            aria-label="status"
             onChange={(e) =>
               setFormValues({ ...formValues, status: e.target.value })
             }
@@ -58,7 +64,9 @@ function TodoForm({
           </select>
         </div>
         <div className="field">
-          <button disabled={isLoading}>{buttonText}</button>
+          <button disabled={isLoading} aria-label={`${buttonText}-button`}>
+            {buttonText}
+          </button>
         </div>
       </form>
     </div>

@@ -1,4 +1,4 @@
-import { Alert, Stack, TextField } from "@mui/material";
+import { Alert } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { USER_LOGIN_API_URL } from "../../constants";
@@ -49,32 +49,53 @@ function LoginPage() {
   }, []);
 
   return (
-    <div className="logincontainer">
-      <div className="span">
-        <span>Sign In to your account</span>
+    <div className="logincontainer" role="login-main">
+      <div className="span" aria-labelledby="login-title">
+        <span id="login-title">Sign In to your account</span>
       </div>
-      <div className="formbg">
-        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-        <form onSubmit={handleLoginUser}>
+      <div className="formbg" aria-labelledby="error-message">
+        {errorMessage && (
+          <Alert severity="error" aria-labelledby="error-message">
+            {errorMessage}
+          </Alert>
+        )}
+        <form onSubmit={handleLoginUser} role="login-form">
           <div className="field">
             <label htmlFor="email">
               Email<i>*</i>
             </label>
-            <input type="email" name="email" id="email" required />
+            <input
+              type="email"
+              name="email"
+              id="email"
+              aria-label="email"
+              required
+            />
           </div>
           <div className="field">
             <label htmlFor="password">
               Password<i>*</i>
             </label>
-            <input type="password" name="password" id="password" required />
+            <input
+              type="password"
+              name="password"
+              id="password"
+              aria-label="password"
+              required
+            />
           </div>
           <div className="field">
-            <button disabled={isLoading}>Log In</button>
+            <button disabled={isLoading} aria-label="login-button">
+              Log In
+            </button>
           </div>
         </form>
         <div>
           <p>
-            Don't Have an account? <Link to="/register">Register</Link>
+            Don't Have an account?{" "}
+            <Link to="/register" aria-label="link-to-register">
+              Register
+            </Link>
           </p>
         </div>
       </div>

@@ -5,6 +5,7 @@ const {
   getTodo,
   updateTodo,
   deleteTodo,
+  deleteMultipleTodo,
 } = require("../controllers/todoscontroller");
 const { verifyJWTToken } = require("../jwt/verifyJWTtoken");
 
@@ -17,5 +18,6 @@ router
   .get(verifyJWTToken, getTodo)
   .put(verifyJWTToken, updateTodo)
   .delete(verifyJWTToken, deleteTodo); // routes to get a todo, update a todo, delete a todo with there id
+router.route("/multidelete").post(verifyJWTToken, deleteMultipleTodo);
 
 module.exports = router;

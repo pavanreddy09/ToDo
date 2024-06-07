@@ -67,22 +67,32 @@ function RegisterPage() {
   }, []);
 
   return (
-    <div className="logincontainer">
-      <div className="span">
-        <span>Create your account</span>
+    <div className="logincontainer" role="register-main">
+      <div className="span" aria-labelledby="register-title">
+        <span id="register-title">Create your account</span>
       </div>
-      <div className="formbg">
-        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-        <form onSubmit={handleRegisterUser}>
+      <div className="formbg" aria-labelledby="error-message">
+        {errorMessage && (
+          <Alert severity="error" id="error-message">
+            {errorMessage}
+          </Alert>
+        )}
+        <form onSubmit={handleRegisterUser} role="register-form">
           <div className="field">
             <label htmlFor="fname">Full Name</label>
-            <input type="text" name="fname" />
+            <input type="text" name="fname" id="fname" aria-label="full-name" />
           </div>
           <div className="field">
             <label htmlFor="email">
               Email<i>*</i>
             </label>
-            <input type="email" name="email" required />
+            <input
+              type="email"
+              name="email"
+              id="email"
+              aria-label="email"
+              required
+            />
           </div>
           <div className="field">
             <label htmlFor="password">
@@ -91,6 +101,8 @@ function RegisterPage() {
             <input
               type="password"
               name="password"
+              id="password"
+              aria-label="password"
               required
               onChange={handlePassword}
               onFocus={() => setPasswordHasFocus(true)}
@@ -116,12 +128,17 @@ function RegisterPage() {
             </div>
           )}
           <div className="field">
-            <button disabled={isLoading}>Register</button>
+            <button disabled={isLoading} aria-label="register-button">
+              Register
+            </button>
           </div>
         </form>
         <div>
           <p>
-            Have an account? <Link to="/login">Login</Link>
+            Have an account?{" "}
+            <Link to="/login" aria-label="link-to-login">
+              Login
+            </Link>
           </p>
         </div>
       </div>

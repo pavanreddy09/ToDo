@@ -4,16 +4,33 @@ import TodoItems from "./todoItems";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import { API_URL } from "../../constants";
-import { CircularProgress, FormControl, MenuItem, Select } from "@mui/material";
+import {
+  Checkbox,
+  CircularProgress,
+  FormControl,
+  FormControlLabel,
+  IconButton,
+  MenuItem,
+  Select,
+  Tooltip,
+} from "@mui/material";
 import NoData from "../noData";
 import { useNavigate } from "react-router-dom";
 import { configAuth, getUserAuthInfo } from "../userAuth";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { ToastError, ToastSuccess } from "../toastNotification";
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 function TodosDisplay() {
   const [todos, setTodos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchedTodos, setSearchedTodos] = useState([]);
   const [filterValue, setFilterValue] = useState("All");
+  const [isMuldelcheckboxEnabled, setIsMuldelcheckboxEnabled] = useState(false);
+  const [selectMultipleIds, setSelectedMultipleIds] = useState([]);
+
   const navigate = useNavigate();
 
   // fetch todos function
@@ -56,6 +73,68 @@ function TodosDisplay() {
     setSearchedTodos(searchTodos);
   };
 
+  // handle delete function
+  const handleDeleteTodo = async (todoId) => {
+    const confirm = window.confirm("Are you sure want to delete this Todo?");
+    const userInfo = getUserAuthInfo();
+    if (confirm) {
+      setIsLoading(true);
+      try {
+        const { data } = await axios.delete(
+          `${API_URL}/${todoId}`,
+          configAuth(userInfo)
+        );
+        ToastSuccess(data.message);
+        // console.log(data);
+        fetchTodos();
+      } catch (err) {
+        console.log(err);
+        ToastError(err.response.data.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  // select todo check box function
+  const handleCheckBox = (todoId) => {
+    if (selectMultipleIds.includes(todoId)) {
+      const newSelects = selectMultipleIds.filter((item) => item !== todoId);
+      setSelectedMultipleIds(newSelects);
+    } else {
+      setSelectedMultipleIds([...selectMultipleIds, todoId]);
+    }
+  };
+
+  // handle multiple delete function
+  const handleDeleteMultiple = async () => {
+    if (selectMultipleIds.length === 0) {
+      return alert("Please select one or more tasks");
+    }
+    const confirm = window.confirm("Are you sure want to delete these Todos?");
+    const userInfo = getUserAuthInfo();
+    if (confirm) {
+      setIsLoading(true);
+      try {
+        const { data } = await axios.post(
+          `${API_URL}/multidelete`,
+          {
+            ids: selectMultipleIds,
+          },
+          configAuth(userInfo)
+        );
+        ToastSuccess(`${data.deletecount} ${data.message}`);
+        fetchTodos();
+      } catch (err) {
+        console.log(err);
+        ToastError(err.response.data.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  // useEffect for fetch todos
   useEffect(() => {
     fetchTodos();
   }, []);
@@ -71,28 +150,34 @@ function TodosDisplay() {
   }, [filterValue]);
 
   return (
-    <div className="todos">
-      <div className="search-field-div">
+    <div className="todos" role="todos">
+      <div className="search-field-div" aria-labelledby="search-field">
         <input
           type="text"
           name="search"
           placeholder="Search..."
+          aria-label="search"
           onChange={handleSearchTodo}
         />
 
-        <button className="create-button" onClick={() => navigate("/create")}>
+        <button
+          className="create-button"
+          aria-label="todo-create"
+          onClick={() => navigate("/create")}
+        >
           <AddIcon />
           Create
         </button>
       </div>
-      <div className="filter-status">
-        <p>Filter by status</p>
+      <div className="filter-status" aria-label="filter-todo">
+        <p id="filter-todo">Filter by status</p>
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
+            aria-label="select-filter"
           >
             <MenuItem value="All">All</MenuItem>
             <MenuItem value="Todo">Todo</MenuItem>
@@ -100,16 +185,82 @@ function TodosDisplay() {
             <MenuItem value="Done">Done</MenuItem>
           </Select>
         </FormControl>
+        <div className="delete-multiple">
+          <FormControl component="fieldset" variant="standard">
+            <FormControlLabel
+              control={
+                <Checkbox checked={isMuldelcheckboxEnabled} name="gilad" />
+              }
+              label="Delete Multiple"
+              onChange={(e) => setIsMuldelcheckboxEnabled(e.target.checked)}
+            />
+          </FormControl>
+          {isMuldelcheckboxEnabled && (
+            <p onClick={handleDeleteMultiple} aria-label="delete-multiple">
+              delete
+            </p>
+          )}
+        </div>
       </div>
       {searchedTodos.length === 0 && !isLoading ? (
         <NoData />
       ) : isLoading ? (
         <CircularProgress sx={{ marginTop: "100px" }} />
       ) : (
-        <div className="todo-grid">
+        <div className="todo-grid" role="todo-listitems">
           {searchedTodos.map((todo, index) => {
+            const isMultipleTodoSelected = selectMultipleIds.includes(todo._id);
             return (
-              <TodoItems key={index} todo={todo} fetchTodos={fetchTodos} />
+              <div
+                key={index}
+                className={
+                  todo.status === "Done"
+                    ? "todo-container tododone"
+                    : "todo-container"
+                }
+                aria-label={`todo-list-${index}`}
+              >
+                <div className="todo-top">
+                  <div className="top-with-checkbox">
+                    {isMuldelcheckboxEnabled && (
+                      <Checkbox
+                        {...label}
+                        checked={isMultipleTodoSelected}
+                        color="success"
+                        onChange={() => handleCheckBox(todo._id)}
+                      />
+                    )}
+                    <div
+                      className="todo-time-date"
+                      aria-labelledby="todo-time-date"
+                    >
+                      <h3 aria-label="todolist-time">{todo.time}</h3>
+                      <p aria-label="todolist-date">{todo.date}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <Tooltip title="Edit">
+                      <IconButton
+                        disabled={isLoading || isMuldelcheckboxEnabled}
+                        onClick={() => navigate(`/update/${todo._id}`)}
+                        aria-label="edit"
+                      >
+                        <EditIcon sx={{ color: "blue" }} />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete">
+                      <IconButton
+                        disabled={isLoading || isMuldelcheckboxEnabled}
+                        onClick={() => handleDeleteTodo(todo._id)}
+                        aria-label="delete"
+                      >
+                        <DeleteIcon sx={{ color: "red" }} />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                </div>
+                <TodoItems index={index} todo={todo} fetchTodos={fetchTodos} />
+              </div>
             );
           })}
         </div>

@@ -6,10 +6,13 @@ import TodosDisplay from "./components/todosDisplay/todosDisplay";
 import CreateTodoForm from "./components/createTodo/createTodoform";
 import UpdateTodoForm from "./components/updateTodo/updateTodoForm";
 import RegisterPage from "./components/registerComponent/registerPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer />
       <div className="App">
         <Header />
         <Routes>
