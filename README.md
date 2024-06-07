@@ -46,3 +46,10 @@ Login to demouser to view that.
 - create, update, complete and delete a task/todo
 - search the task
 - Filter the task by the Status("All","Todo","In Progress","Done")
+
+# New updates
+- writen unit test case for controller files back end
+- added multiple task delete function and api call
+- error handling was updated
+- success and error popup using toast-react library
+- accessibility is updated
